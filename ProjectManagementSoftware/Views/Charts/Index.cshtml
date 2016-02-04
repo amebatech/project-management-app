@@ -1,0 +1,238 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<script src="~/Scripts/bootbox.min.js"></script>
+@*<script src="~/js/Charts.js"></script>*@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<div class="clearfix">
+    <img src="~/Content/images/Ameba.jpg" width="500" height="66" style="float: left" />
+</div>
+<br />
+<br />
+<div class="form-group">
+    <hr />
+        <p class="col-md-8" style="font-size: 17px; color: #538b01; font-weight: bold; font-style: italic; text-align: center;">View Project wise Hours Spent per Task Details.</p>
+    
+    <br />
+
+    <div class="col-md-12" style="float: Left;">
+        <hr />
+        <div class="col-md-5">
+            @Html.Label("Select Project", htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+        <div class="col-md-7" style="float: Left;">
+            @Html.DropDownList("ProjectId", (SelectList)ViewData["Project"], new { @class = "form-control col-md-5", @onchange = "GetStackCharts()" })
+        </div>
+    </div>
+</div>
+<div id="stkcontainer" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>
+<br />
+<br />
+
+<br />
+<br />
+<div class="form-group">
+    <hr />
+        <p class="col-md-8" style="font-size: 17px; color: #538b01; font-weight: bold; font-style: italic; text-align: center;">View Project wise Task Status Details.</p>
+    
+    <br />
+
+    <div class="col-md-12" style="float: Left;">
+        <hr />
+        <div class="col-md-5">
+            @Html.Label("Select Project", htmlAttributes: new { @class = "control-label col-md-3" })
+        </div>
+        <div class="col-md-7" style="float: Left;">
+            @Html.DropDownList("ProjTaskId", (SelectList)ViewData["Project"], new { @class = "form-control col-md-5", @onchange = "GetPieCharts()" })
+        </div>
+    </div>
+</div>
+<div id="piecontainer" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>
+
+<script type="text/javascript">
+    function GetPieCharts() {
+        $.ajax({
+            url: 'Charts/GetPieCharts',
+            type: "GET",
+            dataType: "JSON",
+            data: { pId: document.getElementById('ProjTaskId').value },
+            success: function (data) {
+                DrawPieChart(data);
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+
+    function DrawPieChart(sdata) {
+        //alert(data);
+        var seriesData = [];
+        //var xCategories = [];
+        var i, cat;
+
+        var chart;
+        $(document).ready(function () {
+            // Build the chart
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'piecontainer',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Project-wise Task Status'
+                },
+                legend: {
+                    align: 'right',
+                    x: -100,
+                    verticalAlign: 'top',
+                    y: 20,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    },
+                    colorByPoint: true
+                },
+                series: [{
+                    name: 'Tot.Tasks(in %)',
+                    colorByPoint: true,
+                    data: sdata
+                }]
+
+            });
+        });
+    }
+
+    function GetStackCharts() {
+        $.ajax({
+            url: 'Charts/CalcWorkDays',
+            dataType: "json",
+            data: { pId: document.getElementById('ProjectId').value },
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            processData: true,
+            cache: false,
+            delay: 15,
+            success: function (data) {
+                //alert(data);  
+                DrawStackChart(data);
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+
+    function DrawStackChart(data) {
+        //alert(data);
+        var seriesData = [];
+        var xCategories = [];
+        var i, cat;
+        for (i = 0; i < data.length; i++) {
+            cat = 'Task Name: ' + data[i].Task;
+            if (xCategories.indexOf(cat) === -1) {
+                xCategories[xCategories.length] = cat;
+            }
+        }
+        //alert(xCategories);
+        for (i = 0; i < data.length; i++) {
+            if (seriesData) {
+                var currSeries = seriesData.filter(function (seriesObject) { return seriesObject.name == data[i].Employee; });
+                if (currSeries.length == 0) {
+                    seriesData[seriesData.length] = currSeries = { name: data[i].Employee, data: [] };
+                } else {
+                    currSeries = currSeries[0];
+                }
+                var index = currSeries.data.length;
+                currSeries.data[index] = data[i].Days;
+            } else {
+                seriesData[0] = { name: data[i].Employee, data: [data[i].Days] }
+            }
+        }
+        //alert(seriesData);
+        var chart;
+        $(document).ready(function () {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'stkcontainer',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Project-wise Hours Spent / Task'
+                },
+                xAxis: {
+                    categories: xCategories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Days worked by Employee / Task'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    x: -100,
+                    verticalAlign: 'top',
+                    y: 20,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.x + '</b><br/>' +
+                            this.series.name + ': ' + this.y + '<br/>' +
+                            'Total: ' + this.point.stackTotal;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal'
+                    }
+                },
+                series: seriesData
+            });
+        });
+    }
+</script>
+
+
+
+
+
+

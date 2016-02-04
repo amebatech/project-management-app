@@ -1,0 +1,128 @@
+﻿@using Revoluza.Models
+@model IEnumerable<Revoluza.Models.Project>
+
+@{
+    var count = 1;
+    var cntTask = 1;
+    var cntSubTask = 1;
+}
+
+@foreach (var proj in Model)
+{
+    <table class="table table-bordered table-striped" style="width: 95%;">
+        <thead>
+            <tr>
+                <th colspan="2" style="text-align: center">
+                    <div class="input-group">
+                        <input type="text" id="filterValue" class="form-control" style="width: 125px;" placeholder="Search for..."><span class="input-group-btn">
+                            <button class="btn btn-default btnSearchUser" id="btnSearchUser" type="button">Go!</button>
+                    </div>
+                </th>
+                <th colspan="5" style="text-align: center;">[Project: @proj.Name] ~ Manager Assignment List <span class="btn btn-xs btn-success btnAddTask" id="addTask_@proj.ProjectId" style="float:right;">Add Task</span></th>
+            </tr>
+            <tr class="success">
+                <th>SNo.</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Manager</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th style="text-align: center;">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><span class="glyphicon glyphicon-file" aria-hidden="true">  @(count++)</span></td>
+                <td>@proj.Name</td>
+                <td>@proj.Description</td>
+                <td>@proj.ProjectManager</td>
+                <td>@proj.StartDate</td>
+                <td>@proj.EndDate</td>
+                <td>
+                    
+                    <span class="btn btn-xs btn-info btnProjectDetails" id="projDelails_@proj.ProjectId">Details</span>
+                    <span class="btn btn-xs btn-warning btnAddManager" id="addManager_@proj.ProjectId">Assign/Monitor</span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    foreach (Task tsk in (IList<Task>)ViewData["Task"])
+    {
+        if (tsk.ParentId == null && tsk.ProjectName.Equals(proj.Name))
+        {
+        <table class="table table-bordered" style="width: 91%;margin-left:60px">
+            <thead>
+                <tr>
+                    <th colspan="7" style="text-align: center;">[Task: @tsk.Name] ~ Employee Assignment List<span class="btn btn-xs btn-success btnAddSubTask" id="addSubTask_@tsk.TaskId" style="float:right;">Add Sub-Task</span></th>
+                </tr>
+                <tr class="warning">
+                    <th>SNo.</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Manager</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th style="text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><span class="glyphicon glyphicon-text-height" aria-hidden="true">  @(cntTask++)</span></td>
+                    <td>@tsk.Name</td>
+                    <td>@tsk.Description</td>
+                    <td>@tsk.ManagerName</td>
+                    <td>@tsk.StartDate</td>
+                    <td>@tsk.EndDate</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnEdit" id="edit_@tsk.TaskId">Edit Task</span>
+                        <span class="btn btn-xs btn-danger btnDelete" id="delete_@tsk.TaskId">Delete Task</span>
+                        <span class="btn btn-xs btn-info btnDetails" id="delails_@tsk.TaskId">Details</span>
+                        <span class="btn btn-xs btn-warning btnAddEmployee" id="addEmployee_@tsk.TaskId">Assign/Monitor</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        }
+        foreach (Task subtask in (IList<Task>)ViewData["Task"])
+        {
+            if (subtask.ParentId != null && subtask.ProjectName.Equals(proj.Name) && subtask.ParentId.ToString().Equals(tsk.TaskId.ToString()))
+            {
+            <table class="table table-bordered" style="width: 88%;margin-left:105px">
+                <thead>
+                    @*<tr>
+                        <th colspan="7" style="text-align: center;">Sub-Tasks List for @subtask.Name</th>
+                    </tr>*@
+                    <tr class="danger">
+                        <th>SNo.</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Manager</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th style="text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="glyphicon glyphicon-text-width" aria-hidden="true">  @(cntSubTask++)</span></td>
+                        <td>@subtask.Name</td>
+                        <td>@subtask.Description</td>
+                        <td>@subtask.ManagerName</td>
+                        <td>@subtask.StartDate</td>
+                        <td>@subtask.EndDate</td>
+                        <td>
+                            <span class="btn btn-xs btn-primary btnEdit" id="edit_@subtask.TaskId">Edit Task</span>
+                            <span class="btn btn-xs btn-danger btnDelete" id="delete_@subtask.TaskId">Delete Task</span>
+                            <span class="btn btn-xs btn-info btnDetails" id="delails_@subtask.TaskId">Details</span>
+                            <span class="btn btn-xs btn-warning btnAddEmployee" id="addEmployee_@subtask.TaskId">Assign/Monitor</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            }
+        }
+    }
+    cntTask = 1;
+    cntSubTask = 1;
+        
+}

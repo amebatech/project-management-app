@@ -1,0 +1,76 @@
+﻿@model Revoluza.Models.UserAdmin 
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Details Record</h4>
+</div>
+<div class="modal-body">
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.uname)</td>
+                <td>@Html.DisplayFor(model => model.uname)</td>
+            </tr>
+            
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.email)</td>
+                <td>@Html.DisplayFor(model => model.email)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.apprvd)</td>
+                <td>@Html.DisplayFor(model => model.apprvd)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.actdate)</td>
+                <td>@Html.DisplayFor(model => model.actdate)</td>
+            </tr>
+             <tr>
+                <td>@Html.DisplayNameFor(model => model.create)</td>
+                <td>@Html.DisplayFor(model => model.create)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.lockd)</td>
+                <td>@Html.DisplayFor(model => model.lockd)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.FullAddress)</td>
+                <td>@Html.DisplayFor(model => model.FullAddress)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.FullName)</td>
+                <td>@Html.DisplayFor(model => model.FullName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Contacts.DayTimePhone)</td>
+                <td>@Html.DisplayFor(model => model.Contacts.DayTimePhone)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Contacts.CellPhone)</td>
+                <td>@Html.DisplayFor(model => model.Contacts.CellPhone)</td>
+            </tr>
+             <tr>
+                <td>@Html.DisplayNameFor(model => model.Personal.Occupation)</td>
+                <td>@Html.DisplayFor(model => model.Personal.Occupation)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Personal.Website)</td>
+                <td>@Html.DisplayFor(model => model.Personal.Website)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Personal.Gender)</td>
+                <td>@Html.DisplayFor(model => model.Personal.Gender)</td>
+            </tr>
+            
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Personal.BirthDate)</td>
+                <td>@Html.DisplayFor(model => model.Personal.BirthDate)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info"
+            data-dismiss="modal">
+        Close
+    </button>
+</div>

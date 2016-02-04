@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Revoluza.Models.Task>
+@{
+    var count = 1;
+}
+<table class="table table-bordered table-striped" style="width: 80%;">
+    <thead>
+        <tr>
+            <th colspan="2" style="text-align: center"><div class="input-group"><input type="text" id="filterValue" class="form-control" style="width:125px;" placeholder="Search for..."><span class="input-group-btn"><button class="btn btn-default btnSearchTask" id="btnSearchTask" type="button">Go!</button></div></th>
+            <th colspan="5" style="text-align: center;">Task List<span class="btn btn-xs btn-success btnCreate" id="btnCreate" style="float:right;">Create New</span></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>For Project</th>
+            <th>Project Manager</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                @if (task.ParentId == null) 
+                {
+                    <td>  <span class="glyphicon glyphicon-text-height" aria-hidden="true">  @(count++)</span></td>
+                }
+                else
+                {
+                    <td>  <span class="glyphicon glyphicon-text-width" aria-hidden="true">  @(count++)</span></td>
+                }
+                <td>@task.Name</td>
+                <td>@task.StartDate</td>
+                <td>@task.EndDate</td>
+                <td>@task.ProjectName</td>
+                <td>@task.ManagerName</td>
+                <td>
+                    <span class="btn btn-xs btn-primary btnEdit" id="edit_@task.TaskId">Edit</span>
+                    <span class="btn btn-xs btn-info btnDetails" id="delails_@task.TaskId">Details</span>
+                    <span class="btn btn-xs btn-danger btnDelete" id="delete_@task.TaskId">Delete</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

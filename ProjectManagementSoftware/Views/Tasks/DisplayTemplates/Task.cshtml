@@ -1,0 +1,16 @@
+﻿@model Core.Domain.Task 
+
+<div>
+    <h3>@Html.ActionLink(Model.Name, "Detail", new { id = Model.TaskId })</h3>
+    <p>
+        <em>Created at: @Model.CreateDate.ToLocalTime().ToString() by @Model.CreatedBy</em>
+    </p>
+    <p>
+        Description: @Model.Description | Total Employees: (@Model.TotalEmployees employees)
+    </p>
+    <p>
+        @Html.ActionLink("Delete Task", "Delete", new { id = Model.TaskId })
+        |
+        @Html.ActionLink("Edit Task", "Update", new { id = Model.TaskId })
+    </p>
+</div>

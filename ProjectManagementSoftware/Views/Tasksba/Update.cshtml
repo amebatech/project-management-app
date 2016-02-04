@@ -1,0 +1,17 @@
+﻿@model Core.Domain.Task
+
+@{
+    ViewData["Title"] = "Update Task";
+}
+
+<h2>Update Task</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.TaskId);
+    @Html.EditorForModel()
+
+    <p>
+        <input type="submit" value="Update Task" />
+    </p>
+}

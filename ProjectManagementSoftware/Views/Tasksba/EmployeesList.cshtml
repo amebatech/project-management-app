@@ -1,0 +1,11 @@
+﻿@model Core.Domain.Task 
+           
+@foreach (var employee in Model.AssignedTo)
+{
+    Html.RenderPartial("Employees", employee);
+}
+
+@*@if (ViewData["TotalComments"] > ViewData["LoadedComments"])*@
+    <div style="margin-bottom: 20px;">
+        <a id="load-more" data-loadedComments="@ViewData["ShowEmployees"]" href="javascript:void(0)">Load more...</a>
+    </div>

@@ -1,0 +1,100 @@
+﻿@using Revoluza.Models
+@model IEnumerable<Revoluza.Models.TicketBase>
+
+@{
+    var countVP = 1;
+    var countP = 1;
+    var countN = 1;
+}
+
+<table class="table table-bordered table-striped" style="width: 90%;">
+    <thead>
+        <tr>
+            <th colspan="2" style="text-align: center">
+                <div class="input-group">
+                    <input type="text" id="filterValue" class="form-control" style="width: 125px;" placeholder="Search for..."><span class="input-group-btn">
+                        <button class="btn btn-default btnSearchTicket" id="btnSearchTicket" type="button">Go!</button>
+                </div>
+            </th>
+            <th colspan="7" style="text-align: center;">Tickets List<span class="btn btn-xs btn-success btnCreate" id="btnCreate" style="float:right;">Create New</span></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>Project Name</th>
+            <th>Create Date</th>
+            <th>Status</th>
+            <th>Priority</th>
+            <th>Percent Complete</th>
+            <th>Issue</th>
+            <th>Assigned To</th>
+            <th style="text-align: center;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var tick in Model)
+        {
+            if(tick.Priority == "Very Urgent")
+            {
+                <tr>
+                    <td><span class="glyphicon glyphicon-file" aria-hidden="true">  @(countVP++)</td>
+                    <td>@tick.ProjectName</td>
+                    <td>@tick.CreateDate</td>
+                    <td>@tick.Status</td>
+                    <td>@tick.Priority</td>
+                    <td>@tick.PercentComplete</td>
+                    <td>@tick.Issue</td>
+                    <td>@tick.AssignedTo</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnEdit" id="edit_@tick.Id">Edit</span>
+                        <span class="btn btn-xs btn-info btnDetails" id="delails_@tick.Id">Details</span>
+                        <span class="btn btn-xs btn-danger btnDelete" id="delete_@tick.Id">Delete</span>
+                    </td>
+                </tr>
+            }
+        }
+        @foreach (var tick in Model)
+        {
+            if(tick.Priority == "Urgent")
+            {
+                <tr>
+                    <td><span class="glyphicon glyphicon-text-height" aria-hidden="true">  @(countP++)</td>
+                    <td>@tick.ProjectName</td>
+                    <td>@tick.CreateDate</td>
+                    <td>@tick.Status</td>
+                    <td>@tick.Priority</td>
+                    <td>@tick.PercentComplete</td>
+                    <td>@tick.Issue</td>
+                    <td>@tick.AssignedTo</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnEdit" id="edit_@tick.Id">Edit</span>
+                        <span class="btn btn-xs btn-info btnDetails" id="delails_@tick.Id">Details</span>
+                        <span class="btn btn-xs btn-danger btnDelete" id="delete_@tick.Id">Delete</span>
+                    </td>
+                </tr>
+            }
+        }
+        @foreach (var tick in Model)
+        {
+            if(tick.Priority == "Normal")
+            {
+                <tr>
+                    <td><span class="glyphicon glyphicon-text-width" aria-hidden="true">  @(countN++)</td>
+                    <td>@tick.ProjectName</td>
+                    <td>@tick.CreateDate</td>
+                    <td>@tick.Status</td>
+                    <td>@tick.Priority</td>
+                    <td>@tick.PercentComplete</td>
+                    <td>@tick.Issue</td>
+                    <td>@tick.AssignedTo</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnEdit" id="edit_@tick.Id">Edit</span>
+                        <span class="btn btn-xs btn-info btnDetails" id="delails_@tick.Id">Details</span>
+                        <span class="btn btn-xs btn-danger btnDelete" id="delete_@tick.Id">Delete</span>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+
+

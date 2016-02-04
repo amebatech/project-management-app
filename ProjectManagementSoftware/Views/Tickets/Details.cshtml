@@ -1,0 +1,62 @@
+﻿@model Revoluza.Models.TicketBase
+ 
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Ticket Details</h4>
+</div>
+<div class="modal-body">
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ProjectName)</td>
+                <td>@Html.DisplayFor(model => model.ProjectName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.CreateDate)</td>
+                <td>@Html.DisplayFor(model => model.CreateDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.CreatedBy)</td>
+                <td>@Html.DisplayFor(model => model.CreatedBy)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Issue)</td>
+                <td>@Html.DisplayFor(model => model.Issue)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Priority)</td>
+                <td>@Html.DisplayFor(model => model.Priority)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.AssignedTo)</td>
+                <td>@Html.DisplayFor(model => model.AssignedTo)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Status)</td>
+                <td>@Html.DisplayFor(model => model.Status)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.AsOnDate)</td>
+                <td>@Html.DisplayFor(model => model.AsOnDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.PercentComplete)</td>
+                <td>@Html.DisplayFor(model => model.PercentComplete)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.CloseDate)</td>
+                <td>@Html.DisplayFor(model => model.CloseDate)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Remarks)</td>
+                <td>@Html.DisplayFor(model => model.Remarks)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info"
+            data-dismiss="modal">
+        Close
+    </button>
+</div>

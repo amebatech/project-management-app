@@ -1,0 +1,6 @@
+﻿@if(Request.IsAuthenticated) {
+    <p class="row" style="font-size:14px; color:#538b01; font-weight:bold; font-style:italic;">Welcome <strong>@User.Identity.Name</strong>! [ @Html.ActionLink("Log Off", "LogOff", "Account") ]</p>
+}
+else {
+    <p class="row" style="font-size:14px; color:#538b01; font-weight:bold; font-style:italic;">Please [ @Html.ActionLink("Login", "Login", "Account") ] </p>
+}

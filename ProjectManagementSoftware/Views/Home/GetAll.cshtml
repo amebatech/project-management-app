@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Revoluza.Models.UserAdmin>
+@using Revoluza.Models
+
+@{
+    var count = 1;
+    var mobile = "00000-00000";
+}
+<table class="table table-bordered table-striped" style="width: 85%;">
+    <thead>
+        <tr>
+            <th colspan="2" style="text-align: center"><div class="input-group"><input type="text" id="filterValue" class="form-control" style="width:125px;" placeholder="Search for..."><span class="input-group-btn"><button class="btn btn-default btnSearchUser" id="btnSearchUser" type="button">Go!</button></div></th>
+            <th colspan="6" style="text-align: center;">User List<a href="~/Users/Default.aspx"><span class="btn btn-xs btn-success btnCreate" id="btnCreate" style="float:right;">Manage Users</span></a></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th>Address</th>
+            <th>Mobile</th>
+            <th>Date Created</th>
+            <th>Approved</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (UserAdmin user in Model)
+        {
+            <tr>
+                <td>@(count++)</td>
+                <td>@user.uname</td>
+                <td>@user.email</td>
+                <td>@user.FullAddress</td>
+                <td>@if (user.Contacts != null) { @user.Contacts.CellPhone } else { @mobile }</td>
+                <td>@user.create.ToString("dd-MMM-yyyy")</td>
+                <td>@Html.CheckBox("lockd", @user.apprvd) </td>
+                <td>
+                    @*<span class="btn btn-xs btn-primary btnEdit" id="edit_@user.Id">Edit</span>*@
+                    <span class="btn btn-xs btn-info btnDetails" id="delails_@user.lname">Details</span>
+                    <span class="btn btn-xs btn-danger btnDelete" id="delete_@user.lname">Delete</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

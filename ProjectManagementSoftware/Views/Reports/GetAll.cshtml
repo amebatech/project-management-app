@@ -1,0 +1,36 @@
+﻿@model IEnumerable<Revoluza.Models.Project>
+
+@{
+    var count = 1;
+}
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+ 
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>Track Projects</title>
+    </head>
+    <body>
+       <h1>Project Dashboard - Overview</h1>
+       <div>
+           @*<img src="/Reports/GetRainfallChart" />
+           <img src="/Reports/GetPieChart" />
+           <img src="/Reports/GetMonths" />*@
+           @foreach(var proj in Model)
+           {
+                <br />
+                <br />
+                <div class="form-group">
+                   <hr />
+                   <p class="col-md-8" style="font-size: 17px; color: #538b01; font-weight: bold; font-style: italic; text-align: center;">Project Tracking Reports for [Project: @proj.Name]</p>
+                   <br />
+                   <hr />
+                   <img src="@Url.Action("GetRainfallChartPT", "Reports", new { id = @proj.ProjectId })" />
+                   <img src="@Url.Action("GetPieChartPT", "Reports", new { id = @proj.ProjectId })" />
+                   <img src="@Url.Action("GetMonthsPT", "Reports", new { id = @proj.ProjectId })" />
+                   <hr />
+                </div>
+           }
+        </div>
+    </body>
+</html> 

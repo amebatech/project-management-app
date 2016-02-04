@@ -1,0 +1,76 @@
+﻿@model Core.Domain.Employee 
+           
+@*<script type="text/javascript">
+    $().ready(function () {
+        $("form[action$='AddComment']").live("submit", function () {
+            $.post(
+                $(this).attr("action"),
+                $(this).serialize(),
+                function (response) {
+                    if (response.Result == "ok") {
+                        $(response.CommentHtml).hide().prependTo("#comment-list").fadeIn(1000);
+                        $("#add-comment").html(response.FormHtml);
+                        $("#Detail").val("");
+                    }
+                    else {
+                        $("#add-comment").html(response.FormHtml);
+                    }
+                });
+            return false;
+        });
+
+        $("#load-more").live("click", function () {
+            $.post(
+                '@Url.Action("CommentList")',
+                { postId: '@Model.PostId', skip : $(this).data("loadedComments"), limit : 5, totalComments: @ViewData["TotalComments"] },
+                function (response) {
+                    $("#comment-list").find("#load-more").parent().replaceWith($(response).fadeIn(1000));
+                }
+            );
+        });
+
+        $(".remove-comment").live("click", function () {
+            var comment = $(this).parent();
+            $.post(
+                '@Url.Action("RemoveComment")',
+                { postId : '@Model.PostId', commentId : $(this).data("id") },
+                function () {
+                    comment.fadeOut(1000, function() { $(this).remove(); });
+                }
+            );
+        });
+    });
+</script>*@
+@{
+    ViewData["Title"] = "Employee Details";
+}
+<h2>Employee Details</h2>
+<h3>
+    Name: @Model.FirstName @Model.LastName <br />
+    Department: @Model.Department <br />
+    Designation: @Model.Designation <br />
+    DOB: @Model.DateOfBirth <br />
+    Gender: @Model.Gender <br />
+    Reporting To: @Model.ReportingTo <br /> 
+    Salary: @Model.Salary <br />
+</h3>
+
+<p>
+    <em>Joined On @Model.JoinDate.ToLocalTime().ToString() by @Model.AddedBy</em>
+</p>
+
+<p>
+    @Html.Raw(Model.FirstName)
+</p>
+
+@*<div id="add-comment">
+    @Html.Partial("AddComment", new Core.Domain.Comment())
+</div>
+
+<h3>Comments</h3>
+<div id="comment-list">
+    @if (Model.Comments != null)
+    {
+        Html.RenderPartial("CommentList", Model.Comments);
+    }
+</div>*@

@@ -1,0 +1,66 @@
+﻿@model Revoluza.Models.Employee 
+
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <h4 class="modal-title">Details Record</h4>
+</div>
+<div class="modal-body">
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.FirstName)</td>
+                <td>@Html.DisplayFor(model => model.FirstName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.LastName)</td>
+                <td>@Html.DisplayFor(model => model.LastName)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Email)</td>
+                <td>@Html.DisplayFor(model => model.Email)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Designation)</td>
+                <td>@Html.DisplayFor(model => model.Designation)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Department)</td>
+                <td>@Html.DisplayFor(model => model.Department)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Salary)</td>
+                <td>@Html.DisplayFor(model => model.Salary)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.Gender)</td>
+                <td>@Html.DisplayFor(model => model.Gender)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.ReportingHead)</td>
+                <td>@Html.DisplayFor(model => model.ReportingHead)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.IsReportingHead)</td>
+                <td>@Html.DisplayFor(model => model.IsReportingHead)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.IsActive)</td>
+                <td>@Html.DisplayFor(model => model.IsActive)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.DateOfBirth)</td>
+                <td>@Html.DisplayFor(model => model.DateOfBirth)</td>
+            </tr>
+            <tr>
+                <td>@Html.DisplayNameFor(model => model.JoinDate)</td>
+                <td>@Html.DisplayFor(model => model.JoinDate)</td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-info"
+            data-dismiss="modal">
+        Close
+    </button>
+</div>

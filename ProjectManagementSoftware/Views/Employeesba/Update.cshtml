@@ -1,0 +1,17 @@
+﻿@model Core.Domain.Employee 
+
+@{
+    ViewData["Title"] = "Update Employee";
+}
+
+<h2>Update Employee</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.HiddenFor(m => m.EmpId);
+    @Html.EditorForModel()
+
+    <p>
+        <input type="submit" value="Update Employee" />
+    </p>
+}

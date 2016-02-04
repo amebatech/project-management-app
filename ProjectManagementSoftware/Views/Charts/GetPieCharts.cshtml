@@ -1,0 +1,95 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<script src="~/Scripts/bootbox.min.js"></script>
+@*<script src="~/js/Charts.js"></script>*@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<div class="clearfix"><img src="~/Content/images/Ameba.jpg" width="500" height="66" style="float:left" /></div>
+<div class="form-group">
+    @Html.Label("Select Project", htmlAttributes: new { @class = "control-label col-md-4" })
+    <div class="col-md-8">
+        @Html.DropDownList("ProjectId", (SelectList)ViewData["Project"], new { @class = "form-control col-md-5", @onchange="GetPieCharts()" } ) 
+    </div>
+</div>
+<div id="container" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>
+<script type="text/javascript">  
+    function GetPieCharts() {
+            $.ajax({
+                url: 'Charts/GetPieCharts',
+                type: "GET",
+                dataType: "JSON",
+                data: { pId: document.getElementById('ProjectId').value },
+                success: function (data) {
+                    DrawPieChart(data);
+                },
+                error: function (xhr) {  
+                    alert('error');  
+                }  
+            });  
+        }
+
+    function DrawPieChart(sdata) {
+        //alert(data);
+        var seriesData = [];
+        //var xCategories = [];
+        var i, cat;
+
+        var chart;
+        $(document).ready(function () {
+            // Build the chart
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Project-wise Task Status'
+                },
+                legend: {
+                    align: 'right',
+                    x: -100,
+                    verticalAlign: 'top',
+                    y: 20,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true
+                    },
+                    colorByPoint: true
+                },
+                series: [{
+                    name: '%Task',
+                    colorByPoint: true,
+                    data: sdata
+                }]
+                
+            });
+        });
+    }
+</script>  
+
+

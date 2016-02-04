@@ -1,0 +1,42 @@
+﻿@model IEnumerable<Revoluza.Models.Project>
+
+@{
+    var count = 1;
+}
+
+<table class="table table-bordered table-striped" style="width: 75%;">
+    <thead>
+        <tr>
+            <th colspan="2" style="text-align: center"><div class="input-group"><input type="text" id="filterValue" class="form-control" style="width:125px;" placeholder="Search for..."><span class="input-group-btn"><button class="btn btn-default btnSearchProj" id="btnSearchProj" type="button">Go!</button></div></th>
+            <th colspan="5" style="text-align: center;">Project List<span class="btn btn-xs btn-success btnCreate" id="btnCreate" style="float:right;">Create New</span></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>Name</th>
+            <th>Start Date</th>
+            <th>End Date</th>
+            <th>Project Manager</th>
+            <th>Client</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var proj in Model)
+        {
+            <tr>
+                <td>@(count++)</td>
+                <td>@proj.Name</td>
+                <td>@proj.StartDate</td>
+                <td>@proj.EndDate</td>
+                <td>@proj.ProjectManager</td>
+                <td>@proj.Client</td>
+                <td>
+                    <span class="btn btn-xs btn-primary btnEdit" id="edit_@proj.ProjectId">Edit</span>
+                    <span class="btn btn-xs btn-info btnDetails" id="delails_@proj.ProjectId">Details</span>
+                    <span class="btn btn-xs btn-danger btnDelete" id="delete_@proj.ProjectId">Delete</span>
+                    <span class="btn btn-xs btn-success btnaddTask" id="addTask_@proj.ProjectId">Add Task</span>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,69 @@
+﻿@model Core.Domain.Task
+           
+<script type="text/javascript">
+    $().ready(function () {
+        $("form[action$='AddEmployee']").live("submit", function () {
+            $.post(
+                $(this).attr("action"),
+                $(this).serialize(),
+                function (response) {
+                    if (response.Result == "ok") {
+                        $(response.CommentHtml).hide().prependTo("#employee-list").fadeIn(1000);
+                        $("#add-employee").html(response.FormHtml);
+                        $("#Detail").val("");
+                    }
+                    else {
+                        $("#add-employee").html(response.FormHtml);
+                    }
+                });
+            return false;
+        });
+
+        $("#load-more").live("click", function () {
+            $.post(
+                '@Url.Action("EmployeesList")',
+                { taskId: '@Model.TaskId', skip : $(this).data("ShowEmployees"), limit : 5, totalEmployees: @ViewData["TotalEmployees"] },
+                function (response) {
+                    $("#employee-list").find("#load-more").parent().replaceWith($(response).fadeIn(1000));
+                }
+            );
+        });
+
+        $(".remove-employee").live("click", function () {
+            var task = $(this).parent();
+            $.post(
+                '@Url.Action("RemoveEmployee")',
+                { taskId : '@Model.TaskId', taskId : $(this).data("id") },
+                function () {
+                    task.fadeOut(1000, function() { $(this).remove(); });
+                }
+            );
+        });
+    });
+</script>
+@{
+    ViewData["Title"] = "Task Details";
+}
+<h2>Task Details</h2>
+
+<h3>@Model.Name</h3>
+
+<p>
+    <em>Created at: @Model.CreateDate.ToLocalTime().ToString() by @Model.CreatedBy</em>
+</p>
+
+<p>
+    Description: @Html.Raw(Model.Description)
+</p>
+
+<div id="add-employee">
+    @Html.Partial("AddEmployee", new Core.Domain.Employee())
+</div>
+
+<h3>Task Assigned To:</h3>
+<div id="employee-list">
+    @if (Model.TotalEmployees > 0)
+    {
+        Html.RenderPartial("EmployeesList", Model);
+    }
+</div>

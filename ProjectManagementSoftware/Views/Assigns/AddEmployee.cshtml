@@ -1,0 +1,66 @@
+﻿@model IEnumerable<Revoluza.Models.Employee>
+@using Revoluza.Models
+
+@{
+    var count = 1;
+    IList<Employee> empTask = (IList<Employee>)ViewData["Employee"];
+    Task tsk = (Task)ViewData["Task"];
+}
+
+<table class="table table-bordered table-striped" style="width: 75%;">
+    <thead>
+        <tr>
+            <th colspan="6" style="text-align: center">Assign / Remove Employee [Task Name: @tsk.Name]<span class="btn btn-xs btn-success btnBack" id="btnBack" style="float:right;">Back To Task</span></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>Employee Name</th>
+            <th>Gender</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        
+        @foreach(Employee assignee in empTask)
+        {
+            if(@assignee != null )
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@assignee.Fullname</td>
+                    <td>@assignee.Gender</td>
+                    <td>@assignee.Department</td>
+                    <td>@assignee.Designation</td>
+                    <td>
+                        <span class="btn btn-xs btn-success btnMonitor" id="monitor_@tsk.TaskId">Monitor</span>
+                        <span class="btn btn-xs btn-danger btnDeleteEmployee" id="deleteEmployee_@assignee.EmpId">Remove</span>
+                        <span class="btn btn-xs btn-info btnDetailsEmployee" id="delailsEmployee_@assignee.EmpId">Details</span>
+                    </td>
+                </tr>
+            }
+        }
+        @if(count == 1)
+        {
+            foreach (var emp in Model)
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@emp.Fullname</td>
+                    <td>@emp.Gender</td>
+                    <td>@emp.Department</td>
+                    <td>@emp.Designation</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnAssignTask" id="assignTask_@emp.EmpId">Assign</span>
+                        <span class="btn btn-xs btn-danger btnDeleteEmployee" id="deleteEmployee_@emp.EmpId">Remove</span>
+                        <span class="btn btn-xs btn-info btnDetailsEmployee" id="delailsEmployee_@emp.EmpId">Details</span>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+@Html.Hidden("hdnTaskId", @tsk.TaskId)
+
+

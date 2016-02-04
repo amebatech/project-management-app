@@ -1,0 +1,12 @@
+﻿@model Core.Domain.Employee 
+
+<div>
+    <h3>@Html.ActionLink(Model.FirstName, "Detail", new { id = Model.EmpId })</h3>
+    <p><em>Added at @Model.DateAdded.ToLocalTime().ToString() by @Model.AddedBy</em></p>
+    <p><h2>Name: @Model.FirstName @Model.LastName | Designation: (@Model.Designation) | Department: @Model.Department</h2></p>
+    <p>
+        @Html.ActionLink("Delete Employee", "Delete", new { id = Model.EmpId })
+        |
+        @Html.ActionLink("Edit Employee", "Update", new { id = Model.EmpId })
+    </p>
+</div>

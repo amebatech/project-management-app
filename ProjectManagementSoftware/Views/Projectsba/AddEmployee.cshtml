@@ -1,0 +1,14 @@
+﻿@model Core.Domain.Employee 
+
+@using (Html.BeginForm("AddEmployee", "Post", FormMethod.Post))
+{   
+    <input name="EmpId" type="hidden" value="@ViewData["EmpId"]" />
+    <div>
+        Add Employee To Project
+        <br />
+        @Html.TextAreaFor(m => m.FirstName)
+        @Html.ValidationMessageFor(m => m.FirstName)
+        <br />
+        <input type="submit" value="Add Employee" />
+    </div>
+}

@@ -1,0 +1,10 @@
+﻿@model Core.Domain.Employee
+
+<div>
+@*    <strong>By Core.Domain.Project.AddedBy at Core.Domain.Project.DateAdded.ToLocalTime().ToString()</strong>*@
+    (<a class="remove-employee" data-id="@Model.EmpId" href="javascript:void()">Remove</a>)
+    
+    <p>
+        @Model.FirstName  @Model.LastName   @Model.Department   @Model.Designation 
+    </p>
+</div>

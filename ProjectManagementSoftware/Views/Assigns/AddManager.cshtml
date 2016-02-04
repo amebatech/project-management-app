@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Revoluza.Models.Employee>
+@using Revoluza.Models
+ 
+@{
+    var count = 1;
+    Project acProj = (Project)ViewData["Project"];
+}
+
+<table class="table table-bordered" style="width: 75%;">
+    <thead>
+        <tr>
+            <th colspan="6" style="text-align: center">Assign / Remove Project Manager [Project Name: @acProj.Name]<span class="btn btn-xs btn-success btnBack" id="btnBack" style="float:right;">Back To Task</span></th>
+        </tr>
+        <tr class="success">
+            <th>SNo.</th>
+            <th>Employee Name</th>
+            <th>Gender</th>
+            <th>Department</th>
+            <th>Designation</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var emp in Model)
+        {
+            if(acProj.Manager.Equals(@emp.EmpId.ToString()))
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@emp.Fullname</td>
+                    <td>@emp.Gender</td>
+                    <td>@emp.Department</td>
+                    <td>@emp.Designation</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnMonitor" id="monitor_@emp.EmpId">Monitor</span>
+                        <span class="btn btn-xs btn-danger btnDeleteManager" id="deleteManager_@emp.EmpId">Remove</span>
+                        <span class="btn btn-xs btn-info btnDetailsManager" id="delailsManager_@emp.EmpId">Details</span>
+                    </td>
+                </tr>
+            }
+            else
+            {
+                <tr>
+                    <td>@(count++)</td>
+                    <td>@emp.Fullname</td>
+                    <td>@emp.Gender</td>
+                    <td>@emp.Department</td>
+                    <td>@emp.Designation</td>
+                    <td>
+                        <span class="btn btn-xs btn-primary btnAssignManager" id="assignManager_@emp.EmpId">Assign</span>
+                        <span class="btn btn-xs btn-danger btnDeleteManager" id="deleteManager_@emp.EmpId">Remove</span>
+                        <span class="btn btn-xs btn-info btnDetailsManager" id="delailsManager_@emp.EmpId">Details</span>
+                    </td>
+                </tr>
+            }
+        }
+    </tbody>
+</table>
+<input type="hidden" id="hdnProjectId" value="@acProj.ProjectId" />
+

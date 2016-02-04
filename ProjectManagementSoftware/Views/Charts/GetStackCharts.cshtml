@@ -1,0 +1,133 @@
+﻿@{
+    ViewBag.Title = "Dashboard";
+}
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Site.css")" rel="stylesheet" type="text/css" />
+</head>
+
+<script src="~/Scripts/bootbox.min.js"></script>
+@*<script src="~/js/Charts.js"></script>*@
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<div class="clearfix"><img src="~/Content/images/Ameba.jpg" width="500" height="66" style="float:left" /></div>
+<div class="form-group">
+    @Html.Label("Select Project", htmlAttributes: new { @class = "control-label col-md-4" })
+    <div class="col-md-8">
+        @Html.DropDownList("ProjectId", (SelectList)ViewData["Project"], new { @class = "form-control col-md-5", @onchange="GetStackCharts()" } ) 
+    </div>
+
+    <div id="container" style="min-width: 350px; height: 350px; max-width: 600px; margin: 0 auto"></div>  
+</div>
+
+<script type="text/javascript">  
+    function GetStackCharts() {
+        $.ajax({
+            url: 'Charts/CalcWorkDays',
+            dataType: "json",
+            data: { pId: document.getElementById('ProjectId').value },
+            type: "GET",
+            contentType: 'application/json; charset=utf-8',
+            async: false,
+            processData: true,
+            cache: false,
+            delay: 15,
+            success: function (data) {
+                //alert(data);  
+                DrawStackChart(data);
+            },
+            error: function (xhr) {
+                alert('error');
+            }
+        });
+    }
+
+    function DrawStackChart(data) {
+        //alert(data);
+        var seriesData = [];
+        var xCategories = [];
+        var i, cat;
+        for (i = 0; i < data.length; i++) {
+            cat = 'Task Name: ' + data[i].Task;
+            if (xCategories.indexOf(cat) === -1) {
+                xCategories[xCategories.length] = cat;
+            }
+        }
+        //alert(xCategories);
+        for (i = 0; i < data.length; i++) {
+            if (seriesData) {
+                var currSeries = seriesData.filter(function (seriesObject) { return seriesObject.name == data[i].Employee; });
+                if (currSeries.length == 0) {
+                    seriesData[seriesData.length] = currSeries = { name: data[i].Employee, data: [] };
+                } else {
+                    currSeries = currSeries[0];
+                }
+                var index = currSeries.data.length;
+                currSeries.data[index] = data[i].Days;
+            } else {
+                seriesData[0] = { name: data[i].Employee, data: [data[i].Days] }
+            }
+        }
+        alert(seriesData);
+        var chart;
+        $(document).ready(function () {
+            chart = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'container',
+                    type: 'column'
+                },
+                title: {
+                    text: 'Stacked column chart'
+                },
+                xAxis: {
+                    categories: xCategories
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: 'Hours worked by Employee / Task'
+                    },
+                    stackLabels: {
+                        enabled: true,
+                        style: {
+                            fontWeight: 'bold',
+                            color: (Highcharts.theme && Highcharts.theme.textColor) || 'gray'
+                        }
+                    }
+                },
+                legend: {
+                    align: 'right',
+                    x: -100,
+                    verticalAlign: 'top',
+                    y: 20,
+                    floating: true,
+                    backgroundColor: (Highcharts.theme && Highcharts.theme.legendBackgroundColorSolid) || 'white',
+                    borderColor: '#CCC',
+                    borderWidth: 1,
+                    shadow: false
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.x + '</b><br/>' +
+                            this.series.name + ': ' + this.y + '<br/>' +
+                            'Total: ' + this.point.stackTotal;
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        stacking: 'normal'
+                    }
+                },
+                series: seriesData
+            });
+        });
+    }
+</script>  
+
+
+
+
+
+
